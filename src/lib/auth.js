@@ -12,6 +12,8 @@ export const auth = betterAuth({
     client,
   }),
 
+  trustedOrigins: ["https://skillsphere-eight-gamma.vercel.app"],
+
   emailAndPassword: {
     enabled: true,
   },
