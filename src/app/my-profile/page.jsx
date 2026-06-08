@@ -83,7 +83,7 @@ const MyProfilePage = () => {
     <section className="min-h-screen bg-base-200 py-16 px-4">
       <div className="max-w-7xl mx-auto">
 
-        {/* PROFILE HEADER */}
+       
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -137,10 +137,10 @@ const MyProfilePage = () => {
           ))}
         </div>
 
-        {/* MAIN CONTENT */}
+        
         <div className="grid lg:grid-cols-2 gap-8 mt-10">
 
-          {/* PROFILE INFO */}
+          
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <h2 className="card-title">
@@ -171,7 +171,7 @@ const MyProfilePage = () => {
             </div>
           </div>
 
-          {/* LEARNING GOAL */}
+          
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <h2 className="card-title">
@@ -194,7 +194,7 @@ const MyProfilePage = () => {
 
         </div>
 
-        {/* SKILLS */}
+        
         <div className="card bg-base-100 shadow-xl mt-8">
           <div className="card-body">
             <h2 className="card-title">
@@ -214,7 +214,7 @@ const MyProfilePage = () => {
           </div>
         </div>
 
-        {/* ACHIEVEMENTS */}
+        
         <div className="card bg-base-100 shadow-xl mt-8">
           <div className="card-body">
             <h2 className="card-title">
@@ -234,7 +234,7 @@ const MyProfilePage = () => {
           </div>
         </div>
 
-        {/* RECENT ACTIVITY */}
+     
         <div className="card bg-base-100 shadow-xl mt-8">
           <div className="card-body">
             <h2 className="card-title">
@@ -263,7 +263,7 @@ const MyProfilePage = () => {
           </div>
         </div>
 
-        {/* MOTIVATION */}
+        
         <div className="mt-8 rounded-3xl p-8 text-center text-white bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 shadow-xl">
           <h2 className="text-3xl font-bold">
             Keep Learning 🚀
