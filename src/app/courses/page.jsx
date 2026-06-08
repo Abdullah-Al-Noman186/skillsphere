@@ -15,7 +15,7 @@ const CoursesPage = () => {
   return (
     <section className="max-w-7xl mx-auto px-4 py-20">
 
-      {/* HEADER */}
+     
       <div className="text-center mb-10">
         <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">
           🎓 All Courses
@@ -26,7 +26,7 @@ const CoursesPage = () => {
         </p>
       </div>
 
-      {/* SEARCH BOX */}
+      
       <div className="flex flex-col items-center gap-4 mb-10">
 
         <div className="relative w-full max-w-md">
@@ -51,13 +51,13 @@ const CoursesPage = () => {
           )}
         </div>
 
-        {/* RESULT COUNT */}
+      
         <p className="text-sm text-base-content/60">
           Showing <span className="font-bold">{filteredCourses.length}</span> courses
         </p>
       </div>
 
-      {/* RESULTS */}
+      
       {filteredCourses.length > 0 ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCourses.map((course) => (

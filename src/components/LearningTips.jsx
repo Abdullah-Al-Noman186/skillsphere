@@ -55,7 +55,7 @@ const LearningTips = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-base-100 to-base-200">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Section Heading */}
+        
         <div className="text-center mb-14">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">
             📌 Learning Tips
@@ -68,7 +68,7 @@ const LearningTips = () => {
           </p>
         </div>
 
-        {/* Cards */}
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {tips.map((tip, index) => (
             <motion.div

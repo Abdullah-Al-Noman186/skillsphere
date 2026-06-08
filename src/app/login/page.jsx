@@ -24,7 +24,7 @@ const LogInPage = () => {
     });
   };
 
-  // EMAIL LOGIN
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -54,7 +54,7 @@ const LogInPage = () => {
     }
   };
 
-  // GOOGLE LOGIN
+ 
   const handleGoogleLogin = async () => {
     setLoading(true);
 
@@ -165,7 +165,7 @@ const LogInPage = () => {
 
             
             <p className="text-center text-sm mt-4 text-base-content/60">
-              Don’t have an account?{" "}
+              Dont have an account?{" "}
               <Link
                 href="/register"
                 className="text-primary font-semibold"

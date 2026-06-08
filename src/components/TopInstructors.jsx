@@ -11,7 +11,7 @@ const TopInstructors = () => {
   return (
     <section className="py-20 bg-base-100">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Heading */}
+        
         <div className="text-center mb-14">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">
             🏆 Top Instructors
@@ -24,7 +24,7 @@ const TopInstructors = () => {
           </p>
         </div>
 
-        {/* Instructor Cards */}
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {instructors.map((course, index) => (
             <motion.div
@@ -63,17 +63,17 @@ const TopInstructors = () => {
                     />
                   </div>
 
-                  {/* Name */}
+                  
                   <h3 className="text-xl font-bold mt-4">
                     {course.instructor}
                   </h3>
 
-                  {/* Category */}
+                  
                   <div className="badge badge-primary badge-outline">
                     {course.category} Expert
                   </div>
 
-                  {/* Rating */}
+                 
                   <div className="flex items-center gap-1 text-amber-500 mt-2">
                     <Star
                       size={18}
@@ -84,14 +84,14 @@ const TopInstructors = () => {
                     </span>
                   </div>
 
-                  {/* Bio */}
+                 
                   <p className="text-sm text-base-content/70 mt-3">
                     Passionate educator helping students
                     master modern skills and build
                     successful careers.
                   </p>
 
-                  {/* Experience */}
+                
                   <div className="mt-4 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500/10 to-violet-500/10">
                     <p className="font-semibold">
                       5,000+ Students Taught
