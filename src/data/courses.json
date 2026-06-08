@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "title": "Complete Web Development Bootcamp",
+    "instructor": "John Doe",
+    "duration": "20 hours",
+    "rating": 4.9,
+    "level": "Beginner",
+    "description": "Learn HTML, CSS, JavaScript, React, Node.js, and MongoDB from scratch.",
+    "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
+    "category": "Development"
+  },
+  {
+    "id": 2,
+    "title": "Advanced React & Next.js",
+    "instructor": "Sarah Johnson",
+    "duration": "18 hours",
+    "rating": 4.8,
+    "level": "Intermediate",
+    "description": "Build production-ready applications with React, Next.js, and modern tools.",
+    "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
+    "category": "Development"
+  },
+  {
+    "id": 3,
+    "title": "UI/UX Design Masterclass",
+    "instructor": "Emily Carter",
+    "duration": "15 hours",
+    "rating": 4.7,
+    "level": "Beginner",
+    "description": "Learn design principles, wireframing, prototyping, and user research.",
+    "image": "https://images.unsplash.com/photo-1558655146-d09347e92766?w=800",
+    "category": "Design"
+  },
+  {
+    "id": 4,
+    "title": "Digital Marketing Essentials",
+    "instructor": "Michael Brown",
+    "duration": "12 hours",
+    "rating": 4.6,
+    "level": "Beginner",
+    "description": "Master SEO, social media marketing, email campaigns, and analytics.",
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
+    "category": "Marketing"
+  },
+  {
+    "id": 5,
+    "title": "Graphic Design with Photoshop",
+    "instructor": "Jessica Lee",
+    "duration": "14 hours",
+    "rating": 4.7,
+    "level": "Intermediate",
+    "description": "Create stunning graphics, posters, and branding materials.",
+    "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800",
+    "category": "Design"
+  },
+  {
+    "id": 6,
+    "title": "Python for Data Science",
+    "instructor": "David Wilson",
+    "duration": "22 hours",
+    "rating": 4.9,
+    "level": "Beginner",
+    "description": "Analyze data, build visualizations, and explore machine learning basics.",
+    "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800",
+    "category": "Data Science"
+  },
+  {
+    "id": 7,
+    "title": "Machine Learning Fundamentals",
+    "instructor": "Sophia Martinez",
+    "duration": "25 hours",
+    "rating": 4.8,
+    "level": "Advanced",
+    "description": "Understand machine learning algorithms and build predictive models.",
+    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800",
+    "category": "Data Science"
+  },
+  {
+    "id": 8,
+    "title": "Mobile App Development with Flutter",
+    "instructor": "Daniel Kim",
+    "duration": "19 hours",
+    "rating": 4.7,
+    "level": "Intermediate",
+    "description": "Build beautiful Android and iOS apps from a single codebase.",
+    "image": "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800",
+    "category": "Development"
+  },
+  {
+    "id": 9,
+    "title": "Cybersecurity Basics",
+    "instructor": "Robert Taylor",
+    "duration": "16 hours",
+    "rating": 4.6,
+    "level": "Beginner",
+    "description": "Learn network security, ethical hacking concepts, and risk management.",
+    "image": "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=800",
+    "category": "Security"
+  },
+  {
+    "id": 10,
+    "title": "Business Analytics & Excel",
+    "instructor": "Olivia Green",
+    "duration": "13 hours",
+    "rating": 4.8,
+    "level": "Beginner",
+    "description": "Use Excel and analytics tools to make data-driven business decisions.",
+    "image": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800",
+    "category": "Business"
+  }
+]
