@@ -4,6 +4,12 @@ import courses from "@/data/courses.json";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
+import {
+  ArrowRight,
+  Sparkles,
+  Star,
+  BookOpen,
+} from "lucide-react";
 
 const PopularCourses = () => {
   const popularCourses = [...courses]
@@ -11,79 +17,208 @@ const PopularCourses = () => {
     .slice(0, 3);
 
   return (
-    <section className="max-w-7xl mx-auto py-20 px-4">
-      <div className="text-center mb-14">
-        <h2 className="text-4xl md:text-5xl font-bold">
-          🔥 Popular Courses
-        </h2>
-        <p className="text-base-content/70 mt-3">
-          Learn from the highest-rated courses on SkillSphere
-        </p>
-      </div>
+    <section className="relative overflow-hidden py-24">
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {popularCourses.map((course, index) => (
-          <motion.div
-            key={course.id}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.5,
-              delay: index * 0.15,
-            }}
-            whileHover={{ y: -10 }}
-          >
+      {/* ================= Background Effects ================= */}
 
-           
-            <Link href={`/courses/${course.id}`}>
-              <div className="group cursor-pointer card overflow-hidden bg-base-100 shadow-xl border border-base-300 transition-all duration-300 hover:shadow-2xl hover:border-primary">
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" />
 
-                {/* IMAGE */}
-                <figure className="overflow-hidden">
-                  <Image
-                    src={course.image}
-                    alt={course.title}
-                    width={500}
-                    height={300}
-                    className="h-56 w-full object-cover transition duration-500 group-hover:scale-110"
-                  />
-                </figure>
+      <div className="absolute left-0 top-20 h-72 w-72 rounded-full bg-cyan-500/10 blur-[120px]" />
 
-               
-                <div className="card-body">
+      <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-violet-600/10 blur-[120px]" />
 
-                  <div className="flex justify-between items-center">
-                    <span className="badge badge-primary">
+      {/* ================= Content ================= */}
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* ================= Heading ================= */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 40,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-5 py-2 backdrop-blur-xl text-cyan-300">
+            <Sparkles size={16} />
+            Featured Learning
+          </div>
+
+          <h2 className="mt-6 text-4xl md:text-6xl font-black text-white leading-tight">
+            Explore Our{" "}
+            <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-blue-400 bg-clip-text text-transparent">
+              Top Courses
+            </span>
+          </h2>
+
+          <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-400">
+            Discover our highest-rated courses designed by industry
+            professionals to help you master modern technologies and
+            advance your career.
+          </p>
+        </motion.div>
+
+        {/* ================= Cards ================= */}
+
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+          {popularCourses.map((course, index) => (
+
+            <motion.div
+              key={course.id}
+              initial={{
+                opacity: 0,
+                y: 40,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.15,
+              }}
+              whileHover={{
+                y: -10,
+              }}
+            >
+              <Link href={`/courses/${course.id}`}>
+
+                <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/70 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.35)] transition-all duration-500 hover:border-cyan-400/30 hover:shadow-cyan-500/20">
+
+                  {/* Glow */}
+                  <div className="absolute -top-20 right-0 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                  {/* ================= Image ================= */}
+
+                  <div className="relative overflow-hidden">
+
+                    <Image
+                      src={course.image}
+                      alt={course.title}
+                      width={600}
+                      height={400}
+                      className="h-64 w-full object-cover transition duration-700 group-hover:scale-110"
+                    />
+
+                    {/* Overlay */}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
+
+                    {/* Category */}
+
+                    <span className="absolute left-5 top-5 rounded-full border border-cyan-400/20 bg-cyan-500/20 px-4 py-2 text-xs font-semibold text-cyan-300 backdrop-blur-xl">
                       {course.category}
                     </span>
 
-                    <span className="font-semibold text-amber-500">
-                      ⭐ {course.rating}
-                    </span>
+                    {/* Rating */}
+
+                    <div className="absolute right-5 top-5 flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-2 text-sm font-semibold text-amber-400 backdrop-blur-xl">
+
+                      <Star
+                        size={15}
+                        fill="currentColor"
+                      />
+
+                      {course.rating}
+
+                    </div>
+
                   </div>
 
-                  <h2 className="card-title line-clamp-2 group-hover:text-primary transition">
-                    {course.title}
-                  </h2>
+                  {/* ================= Card Body ================= */}
 
-                  <p className="text-base-content/70">
-                    Instructor: {course.instructor}
-                  </p>
+                  <div className="p-7">
 
-                  
-                  <div className="mt-4">
-                    <span className="text-sm font-semibold text-primary">
-                      Click to view details →
-                    </span>
+                    <h3 className="text-2xl font-bold text-white transition duration-300 group-hover:text-cyan-300 line-clamp-2">
+                      {course.title}
+                    </h3>
+
+                    <p className="mt-4 text-slate-400">
+                      Instructor{" "}
+                      <span className="font-semibold text-white">
+                        {course.instructor}
+                      </span>
+                    </p>
+
+                    {/* Divider */}
+
+                    <div className="my-6 border-t border-white/10" />
+
+                    {/* Bottom */}
+
+                    <div className="flex items-center justify-between">
+
+                      <div className="flex items-center gap-2 text-cyan-400 font-semibold">
+
+                        <BookOpen size={18} />
+
+                        View Course
+
+                      </div>
+
+                      <motion.div
+                        whileHover={{
+                          x: 4,
+                        }}
+                        className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 via-violet-500 to-blue-500 text-white shadow-lg"
+                      >
+                        <ArrowRight size={18} />
+                      </motion.div>
+
+                    </div>
+
                   </div>
 
                 </div>
-              </div>
-            </Link>
 
-          </motion.div>
-        ))}
+              </Link>
+            </motion.div>
+
+          ))}
+
+        </div>
+
+        {/* ================= Bottom Button ================= */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{ once: true }}
+          transition={{
+            delay: 0.3,
+          }}
+          className="mt-20 text-center"
+        >
+          <Link href="/courses">
+
+            <button className="btn btn-lg rounded-2xl border-0 bg-gradient-to-r from-cyan-500 via-violet-500 to-blue-500 px-8 text-white shadow-xl shadow-violet-500/30 transition-all duration-300 hover:scale-105">
+
+              Browse All Courses
+
+              <ArrowRight size={20} />
+
+            </button>
+
+          </Link>
+        </motion.div>
+
       </div>
     </section>
   );
