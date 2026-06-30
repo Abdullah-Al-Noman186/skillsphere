@@ -6,11 +6,22 @@ import { motion } from "motion/react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import {
+  Eye,
+  EyeOff,
+  ImageIcon,
+  Loader2,
+  Lock,
+  Mail,
+  User,
+} from "lucide-react";
 
 const RegisterPage = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -20,161 +31,200 @@ const RegisterPage = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  // EMAIL REGISTER
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (loading || googleLoading) return;
+
     setLoading(true);
 
     try {
-      const { data, error } = await authClient.signUp.email({
-        email: formData.email,
+      const { error } = await authClient.signUp.email({
+        email: formData.email.trim(),
         password: formData.password,
-        name: formData.name,
-        photo: formData.photo,
+        name: formData.name.trim(),
+        image: formData.photo.trim(),
       });
 
       if (error) {
         toast.error(error.message || "Registration failed");
-      } else {
-        toast.success("Account created successfully 🚀");
-        router.push("/");
+        return;
       }
+
+      toast.success("Account created successfully");
+      router.push("/");
+      router.refresh();
     } catch (err) {
       toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
- 
   const handleGoogleSignup = async () => {
-    setLoading(true);
+    if (loading || googleLoading) return;
+
+    setGoogleLoading(true);
 
     try {
-      const { data, error } = await authClient.signIn.social({
+      const { error } = await authClient.signIn.social({
         provider: "google",
+        callbackURL: "/",
       });
 
       if (error) {
         toast.error(error.message || "Google signup failed");
-      } else {
-        toast.success("Logged in with Google 🎉");
-        router.push("/");
+        return;
       }
+
+      toast.success("Logged in with Google");
     } catch (err) {
       toast.error("Google login failed");
+    } finally {
+      setGoogleLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-
+    <section className="flex min-h-screen items-center justify-center bg-base-200 px-4 py-12">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 36 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45 }}
         className="w-full max-w-md"
       >
-
         <div className="card bg-base-100 shadow-2xl">
           <div className="card-body">
+            <div className="mb-4 text-center">
+              <h1 className="bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 bg-clip-text text-3xl font-black text-transparent">
+                Create Account
+              </h1>
 
-       
-            <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">
-              Create Account
-            </h2>
+              <p className="mt-2 text-base-content/60">
+                Join SkillSphere and start learning today.
+              </p>
+            </div>
 
-            <p className="text-center text-base-content/60 mb-4">
-              Join SkillSphere 🚀
-            </p>
+            {formData.photo && (
+              <div className="mb-2 flex justify-center">
+                <div className="avatar">
+                  <div className="h-20 w-20 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100">
+                    <img src={formData.photo} alt="Profile preview" />
+                  </div>
+                </div>
+              </div>
+            )}
 
-           
             <form onSubmit={handleSubmit} className="space-y-4">
+              <label className="input input-bordered flex items-center gap-3">
+                <User size={18} className="text-base-content/40" />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full name"
+                  className="grow"
+                  value={formData.name}
+                  onChange={handleChange}
+                  autoComplete="name"
+                  required
+                />
+              </label>
 
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                className="input input-bordered w-full"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+              <label className="input input-bordered flex items-center gap-3">
+                <Mail size={18} className="text-base-content/40" />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email address"
+                  className="grow"
+                  value={formData.email}
+                  onChange={handleChange}
+                  autoComplete="email"
+                  required
+                />
+              </label>
 
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                className="input input-bordered w-full"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
+              <label className="input input-bordered flex items-center gap-3">
+                <ImageIcon size={18} className="text-base-content/40" />
+                <input
+                  type="url"
+                  name="photo"
+                  placeholder="Photo URL"
+                  className="grow"
+                  value={formData.photo}
+                  onChange={handleChange}
+                />
+              </label>
 
-              <input
-                type="text"
-                name="photo"
-                placeholder="Photo URL"
-                className="input input-bordered w-full"
-                value={formData.photo}
-                onChange={handleChange}
-              />
+              <label className="input input-bordered flex items-center gap-3">
+                <Lock size={18} className="text-base-content/40" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  className="grow"
+                  value={formData.password}
+                  onChange={handleChange}
+                  autoComplete="new-password"
+                  required
+                />
 
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="input input-bordered w-full"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+                <button
+                  type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="text-base-content/40 transition hover:text-base-content"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </label>
 
               <button
                 type="submit"
-                disabled={loading}
-                className="btn w-full bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 text-white border-0"
+                disabled={loading || googleLoading}
+                className="btn w-full border-0 bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 text-white"
               >
-                {loading ? "Creating account..." : "Register"}
+                {loading && <Loader2 size={18} className="animate-spin" />}
+                {loading ? "Creating account..." : "Create Account"}
               </button>
             </form>
 
-            
             <div className="divider">OR</div>
 
-            
             <button
               type="button"
               onClick={handleGoogleSignup}
-              disabled={loading}
-              className="btn w-full bg-white text-black border border-gray-300 hover:bg-gray-100"
+              disabled={loading || googleLoading}
+              className="btn w-full border border-base-300 bg-base-100 text-base-content hover:bg-base-200"
             >
-              <img
-                src="https://www.google.com/favicon.ico"
-                alt="Google"
-                className="w-5 h-5"
-              />
+              {googleLoading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <img
+                  src="https://www.google.com/favicon.ico"
+                  alt=""
+                  className="h-5 w-5"
+                />
+              )}
               Continue with Google
             </button>
 
-          
-            <p className="text-center text-sm mt-4 text-base-content/60">
+            <p className="mt-4 text-center text-sm text-base-content/60">
               Already have an account?{" "}
-              <Link href="/login" className="text-primary font-semibold">
+              <Link href="/login" className="font-semibold text-primary">
                 Login
               </Link>
             </p>
-
           </div>
         </div>
-
       </motion.div>
     </section>
   );
