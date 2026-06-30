@@ -140,7 +140,7 @@ const MyProfilePage = () => {
 
               <Link
                 href="/my-profile/update"
-                className="btn border-0 bg-white text-base-content hover:bg-white/90"
+                className="btn border-0 bg-white text-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 p-8 hover:bg-white/90"
               >
                 <Pencil size={18} />
                 Edit Profile
@@ -303,7 +303,7 @@ const MyProfilePage = () => {
             Small progress every day leads to big success.
           </p>
 
-          <Link href="/courses" className="btn mt-6 border-0 bg-white text-base-content">
+          <Link href="/courses" className="btn mt-6 border-0 bg-white text-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 p-8">
             Explore Courses
             <ArrowRight size={18} />
           </Link>
