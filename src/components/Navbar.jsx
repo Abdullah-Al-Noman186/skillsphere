@@ -1,14 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { GraduationCap } from "lucide-react";
-import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { GraduationCap, Menu, X, LogOut } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { data } = authClient.useSession();
   const user = data?.user;
+
+  const pathname = usePathname();
+
+  // Scroll aware navbar
+  const [scrolled, setScrolled] = useState(false);
+
+  // Mobile menu
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 15);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     {
@@ -30,187 +50,312 @@ const Navbar = () => {
       const { error } = await authClient.signOut();
 
       if (error) {
-        toast.error(
-          error.message || "Logout failed!"
-        );
+        toast.error(error.message || "Logout failed!");
         return;
       }
 
-      toast.success(
-        "Logged out successfully 👋"
-      );
+      toast.success("Logged out successfully 👋");
 
       setTimeout(() => {
         window.location.href = "/";
       }, 1000);
-
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong!");
     }
   };
 
   return (
-    <motion.nav
-      initial={{ y: -60 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="sticky top-0 z-50 bg-gradient-to-r from-indigo-950 via-purple-950 to-slate-950 backdrop-blur-md shadow-lg"
-    >
-      <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        
-        <div className="navbar-start">
-
-         
-          <div className="dropdown lg:hidden">
-
-            <label
-              tabIndex={0}
-              className="btn btn-ghost text-white"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+    <>
+      {/* ===================== NAVBAR ===================== */}
+      <motion.header
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.45 }}
+        className="fixed top-0 left-0 right-0 z-[999]"
+      >
+        <div className="max-w-7xl mx-auto px-4 pt-4">
+          <motion.nav
+            animate={{
+              scale: scrolled ? 0.985 : 1,
+            }}
+            transition={{ duration: 0.25 }}
+            className={`navbar rounded-2xl border transition-all duration-300
+            ${
+              scrolled
+                ? "border-white/10 bg-slate-950/80 backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
+                : "border-white/5 bg-slate-900/55 backdrop-blur-xl"
+            }`}
+          >
+            {/* ===================== LEFT ===================== */}
+            <div className="navbar-start">
+              {/* Mobile Toggle */}
+              <button
+                onClick={() =>
+                  setMobileOpen(!mobileOpen)
+                }
+                className="btn btn-ghost btn-circle lg:hidden text-white hover:bg-white/10"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </label>
+                {mobileOpen ? (
+                  <X size={22} />
+                ) : (
+                  <Menu size={22} />
+                )}
+              </button>
 
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 p-3 shadow-xl bg-slate-900 rounded-box w-60 text-white z-[999]"
-            >
-              {navItems.map((item) => (
-                <li key={item.name}>
-                  <Link href={item.href}>
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              {/* Logo */}
+              <Link
+                href="/"
+                className="flex items-center gap-3 group"
+              >
+                <motion.div
+                  whileHover={{
+                    rotate: -10,
+                    scale: 1.1,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                  }}
+                  className="relative"
+                >
+                  <div className="absolute inset-0 rounded-full blur-xl bg-cyan-500/40" />
 
-              <div className="divider my-1"></div>
+                  <GraduationCap
+                    size={34}
+                    className="relative text-cyan-400"
+                  />
+                </motion.div>
 
+                <span className="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-cyan-400 via-violet-400 to-blue-400 bg-clip-text text-transparent">
+                  SkillSphere
+                </span>
+              </Link>
+            </div>
+
+            {/* ===================== CENTER ===================== */}
+            <div className="navbar-center hidden lg:flex">
+              <ul className="flex items-center gap-2">
+                {navItems.map((item) => {
+                  const active =
+                    pathname === item.href;
+
+                  return (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className="relative"
+                      >
+                        <motion.div
+                          whileHover={{
+                            y: -2,
+                          }}
+                          className={`relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300
+                          ${
+                            active
+                              ? "text-white"
+                              : "text-slate-300 hover:text-white"
+                          }`}
+                        >
+                          {item.name}
+
+                          {active && (
+                            <motion.div
+                              layoutId="active-pill"
+                              className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-blue-500/20 border border-cyan-400/20"
+                              transition={{
+                                type: "spring",
+                                bounce: 0.25,
+                                duration: 0.5,
+                              }}
+                            />
+                          )}
+                        </motion.div>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* ===================== RIGHT ===================== */}
+            <div className="navbar-end hidden lg:flex gap-3">
               {user ? (
                 <>
-                  <li>
-                    <button
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </button>
-                  </li>
+                  {/* Avatar */}
+                  <div
+                    className="tooltip tooltip-bottom"
+                    data-tip={user.name}
+                  >
+                    <div className="relative">
+                      <img
+                        src={
+                          user.image ||
+                          "https://i.ibb.co/4pDNDk1/avatar.png"
+                        }
+                        alt={user.name}
+                        className="w-11 h-11 rounded-full object-cover border-2 border-cyan-400 shadow-lg shadow-cyan-500/20"
+                      />
+
+                      {/* Online indicator */}
+                      <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-slate-900" />
+                    </div>
+                  </div>
+
+                  {/* Logout */}
+                  <button
+                    onClick={handleLogout}
+                    className="btn rounded-xl border border-red-400/20 bg-red-500/10 text-red-300 hover:bg-red-500 hover:text-white transition-all"
+                  >
+                    <LogOut size={18} />
+                    Logout
+                  </button>
                 </>
               ) : (
                 <>
-                  <li>
-                    <Link href="/login">
-                      Login
-                    </Link>
-                  </li>
+                  {/* Login */}
+                  <Link
+                    href="/login"
+                    className="btn rounded-xl border border-cyan-400/30 bg-white/5 text-cyan-300 hover:bg-cyan-500 hover:text-white hover:border-cyan-500 transition-all duration-300"
+                  >
+                    Login
+                  </Link>
 
-                  <li>
-                    <Link href="/register">
-                      Register
-                    </Link>
-                  </li>
+                  {/* Register */}
+                  <Link
+                    href="/register"
+                    className="btn rounded-xl border-0 text-white bg-gradient-to-r from-cyan-500 via-violet-500 to-blue-500 hover:scale-105 hover:shadow-xl hover:shadow-violet-500/30 transition-all duration-300"
+                  >
+                    Register
+                  </Link>
                 </>
               )}
-            </ul>
-          </div>
+            </div>
+          </motion.nav>
+        </div>
+      </motion.header>
 
-         
-          <Link
-            href="/"
-            className="flex items-center gap-3"
+      {/* Spacer */}
+      <div className="h-24" />
+
+      {/* ===================== MOBILE MENU ===================== */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: -20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -20,
+            }}
+            transition={{
+              duration: 0.25,
+            }}
+            className="fixed top-24 left-4 right-4 z-[998] lg:hidden"
           >
-            <GraduationCap
-              size={34}
-              className="text-cyan-400"
-            />
+            <div className="rounded-2xl border border-white/10 bg-slate-950/90 backdrop-blur-2xl shadow-2xl p-3">
+              <ul className="menu gap-2">
+                {navItems.map((item) => {
+                  const active =
+                    pathname === item.href;
 
-            <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-cyan-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">
-              SkillSphere
-            </span>
-          </Link>
-        </div>
+                  return (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        onClick={() =>
+                          setMobileOpen(false)
+                        }
+                        className={`rounded-xl ${
+                          active
+                            ? "bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-blue-500/20 text-white"
+                            : "text-slate-300 hover:bg-white/10"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  );
+                })}
 
-        
-        <div className="navbar-center hidden lg:flex">
-          <ul className="flex items-center gap-2">
+                <div className="divider my-1" />
 
-            {navItems.map((item) => (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className="px-4 py-2 text-white rounded-xl hover:bg-white/10 hover:text-cyan-300 transition-all duration-300"
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
+                {user ? (
+                  <>
+                    <div className="flex items-center gap-3 px-3 py-2">
+                      <div className="relative">
+                        <img
+                          src={
+                            user.image ||
+                            "https://i.ibb.co/4pDNDk1/avatar.png"
+                          }
+                          alt={user.name}
+                          className="w-10 h-10 rounded-full border border-cyan-400 object-cover"
+                        />
 
-          </ul>
-        </div>
+                        <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-400 border border-slate-900" />
+                      </div>
 
-        
-        <div className="navbar-end hidden lg:flex gap-3">
+                      <div>
+                        <p className="text-white font-medium">
+                          {user.name}
+                        </p>
 
-          {user ? (
-            <>
-           
-              <div
-                className="tooltip tooltip-bottom"
-                data-tip={user.name}
-              >
-                <img
-                  src={
-                    user.image ||
-                    "https://i.ibb.co/4pDNDk1/avatar.png"
-                  }
-                  alt={user.name}
-                  className="w-11 h-11 rounded-full border-2 border-cyan-400 object-cover"
-                />
-              </div>
+                        <p className="text-xs text-slate-400">
+                          Signed in
+                        </p>
+                      </div>
+                    </div>
 
-              
-              <button
-                onClick={handleLogout}
-                className="btn btn-error rounded-full"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              
-              <Link
-                href="/login"
-                className="btn btn-outline border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black rounded-full"
-              >
-                Login
-              </Link>
+                    <li>
+                      <button
+                        onClick={() => {
+                          setMobileOpen(false);
+                          handleLogout();
+                        }}
+                        className="text-red-300"
+                      >
+                        <LogOut size={18} />
+                        Logout
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link
+                        href="/login"
+                        onClick={() =>
+                          setMobileOpen(false)
+                        }
+                      >
+                        Login
+                      </Link>
+                    </li>
 
-             
-              <Link
-                href="/register"
-                className="btn rounded-full border-0 text-white bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500 hover:scale-105 transition-transform"
-              >
-                Register
-              </Link>
-            </>
-          )}
-
-        </div>
-      </div>
-    </motion.nav>
+                    <li>
+                      <Link
+                        href="/register"
+                        onClick={() =>
+                          setMobileOpen(false)
+                        }
+                      >
+                        Register
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
